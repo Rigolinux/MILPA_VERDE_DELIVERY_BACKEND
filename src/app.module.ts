@@ -1,10 +1,21 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+
+import { MongooseModule } from '@nestjs/mongoose';
+
+//environment variables
+import { ConfigModule } from '@nestjs/config';
+import { envVarsSchema } from './config/joi.validation';
+import { EnvConfig } from './config/app.config';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      load: [EnvConfig],
+      validationSchema: envVarsSchema,
+    }),
+    MongooseModule.forRoot(process.env.DBURL),
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

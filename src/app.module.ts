@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { envVarsSchema } from './config/joi.validation';
 import { EnvConfig } from './config/app.config';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { EnvConfig } from './config/app.config';
       validationSchema: envVarsSchema,
     }),
     MongooseModule.forRoot(process.env.DBURL),
+    UsersModule,
   ],
   controllers: [],
   providers: [],

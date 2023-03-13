@@ -6,4 +6,5 @@ export const EnvConfig = () =>({
   DBURL: process.env.DBURL,
   port: process.env.PORT || 3000,
   default_limit: process.env.DEFAULT_LIMIT || 5,
+  SECRETKEY: process.env.SECRETKEY,
 });

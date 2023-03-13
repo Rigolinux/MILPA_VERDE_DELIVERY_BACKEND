@@ -6,4 +6,5 @@ export const envVarsSchema = Joi.object({
   DBURL: Joi.string().required(),
   PORT: Joi.number().default(3000),
   DEFAULT_LIMIT: Joi.number().default(5),
+  SECRETKEY: Joi.string().required(),
 });

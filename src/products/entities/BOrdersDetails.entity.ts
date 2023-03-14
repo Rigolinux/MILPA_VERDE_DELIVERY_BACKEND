@@ -15,8 +15,9 @@ export class BOrdersDetails extends Document {
   @Prop({ required: true })
   total: number;
 
-  @Prop({ required: true })
+  @Prop({ type: Schema })
   ID_Header: string;
 }
+// relation with BOrdersHeader and BOrdersDetails
 
 export const ProductHeaderSchema = SchemaFactory.createForClass(BOrdersDetails);

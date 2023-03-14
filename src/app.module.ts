@@ -9,6 +9,7 @@ import { EnvConfig } from './config/app.config';
 import { UsersModule } from './users/users.module';
 
 import { AuthModule } from './auth/auth.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AuthModule } from './auth/auth.module';
     MongooseModule.forRoot(process.env.DBURL),
     UsersModule,
     AuthModule,
+    ProductsModule,
   ],
   controllers: [],
   providers: [],

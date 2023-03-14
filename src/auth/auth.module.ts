@@ -10,10 +10,10 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule,
+    ConfigModule.forRoot(),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     JwtModule.register({
-      secret: 'secret',
+      secret: process.env.SECRETKEY,
       signOptions: { expiresIn: '1d' },
     }),
   ],

@@ -1,11 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateProductDto, CreateOrdertDto, UpdateProductDto } from './dto';
+
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { BOrdersDetails } from './entities/BOrdersDetails.entity';
+import { BOrdersHeader } from './entities/BOrdersHeader.entity';
+import { Products } from './entities/product.entity';
 
 @Injectable()
 export class ProductsService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  constructor(
+    @InjectModel(Products.name) private readonly productModel: Model<Products>,
+    @InjectModel(BOrdersHeader.name)
+    private readonly OrdersHeaderModel: Model<BOrdersHeader>,
+    @InjectModel(BOrdersDetails.name)
+    private readonly OrdersDetailsModel: Model<BOrdersDetails>,
+  ) {}
+
+  create(createOrder: CreateOrdertDto) {
+    return createOrder;
   }
 
   findAll() {

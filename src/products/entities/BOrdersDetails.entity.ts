@@ -20,4 +20,5 @@ export class BOrdersDetails extends Document {
 }
 // relation with BOrdersHeader and BOrdersDetails
 
-export const ProductHeaderSchema = SchemaFactory.createForClass(BOrdersDetails);
+export const BOrdersDetailsSchema =
+  SchemaFactory.createForClass(BOrdersDetails);

@@ -30,4 +30,4 @@ export class Products extends Document {
 
 // TODO - Add a providers table
 
-export const ProductHeaderSchema = SchemaFactory.createForClass(Products);
+export const ProductsSchema = SchemaFactory.createForClass(Products);

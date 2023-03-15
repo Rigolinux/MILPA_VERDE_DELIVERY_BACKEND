@@ -22,4 +22,4 @@ export class BOrdersHeader extends Document {
   status: string;
 }
 
-export const ProductHeaderSchema = SchemaFactory.createForClass(BOrdersHeader);
+export const BOrdersHeaderSchema = SchemaFactory.createForClass(BOrdersHeader);

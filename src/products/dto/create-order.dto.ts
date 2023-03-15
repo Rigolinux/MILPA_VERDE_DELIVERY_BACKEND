@@ -9,6 +9,10 @@ import {
 import { Type } from 'class-transformer';
 
 class OrderDetailsDto {
+  @IsString()
+  @IsNotEmpty()
+  ID_Product: string;
+
   @IsNotEmpty()
   @IsString()
   product: string;

@@ -3,9 +3,10 @@ import { CreateProductDto, CreateOrdertDto, UpdateProductDto } from './dto';
 
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { BOrdersDetails } from './entities/BOrdersDetails.entity';
-import { BOrdersHeader } from './entities/BOrdersHeader.entity';
-import { Products } from './entities/product.entity';
+import { BOrdersDetails, BOrdersHeader, Products } from './entities/';
+
+// transaction of mongoose
+import { InjectConnection } from '@nestjs/mongoose';
 
 @Injectable()
 export class ProductsService {
@@ -15,12 +16,56 @@ export class ProductsService {
     private readonly OrdersHeaderModel: Model<BOrdersHeader>,
     @InjectModel(BOrdersDetails.name)
     private readonly OrdersDetailsModel: Model<BOrdersDetails>,
+    @InjectConnection() private readonly connection,
   ) {}
 
-  create(createOrder: CreateOrdertDto) {
-    return createOrder;
+  async create(createOrder: CreateOrdertDto) {
+    try {
+      this.connection.startSession();
+      const { details, ...orderHeader } = createOrder;
+      const orderHeaderModel = await this.OrdersHeaderModel.create(orderHeader);
+      const orderDetails = details.map((detail) => ({
+        ...detail,
+        ID_Header: orderHeaderModel._id,
+      }));
+      const arrayDetails = [];
+      for (let i = 0; i < orderDetails.length; i++) {
+        const orderDetail = orderDetails[i];
+        const orderDetailModel = await this.OrdersDetailsModel.create(
+          orderDetail,
+        );
+        arrayDetails.push(orderDetailModel);
+      }
+      const detailsDB = await Promise.all(arrayDetails);
+      this.connection.endSession();
+      // to abort the transaction
+      // this.connection.abortTransaction();
+      return {
+        orderHeader: orderHeaderModel,
+        details: detailsDB,
+      };
+    } catch (error) {
+      this.connection.endSession();
+      console.log(error);
+      throw new Error(error);
+    }
   }
 
+  async findAllOrderHeader() {
+    return await this.OrdersHeaderModel.find();
+  }
+
+  async findOrderDetails(id: string) {
+    try {
+      const orderDetails = await this.OrdersDetailsModel.find({
+        ID_Header: id,
+      });
+      return orderDetails;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  }
   findAll() {
     return `This action returns all products`;
   }

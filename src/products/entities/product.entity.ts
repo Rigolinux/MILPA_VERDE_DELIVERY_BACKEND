@@ -9,7 +9,7 @@ enum Category {
 
 @Schema()
 export class Products extends Document {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   name: string;
 
   @Prop({ required: true })
@@ -18,7 +18,7 @@ export class Products extends Document {
   @Prop({ required: true })
   price: number;
 
-  @Prop({ required: true })
+  @Prop({ default: 0 })
   stock: number;
 
   @Prop()

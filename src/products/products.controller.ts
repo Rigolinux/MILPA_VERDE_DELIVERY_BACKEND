@@ -7,21 +7,41 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+// add is uuid validation
+
 import { ProductsService } from './products.service';
 import { CreateProductDto, CreateOrdertDto, UpdateProductDto } from './dto';
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Post()
-  create(@Body() createOrdertDto: CreateOrdertDto) {
-    return this.productsService.create(createOrdertDto);
+  // products api rest
+
+  // get all products
+  @Get()
+  findAllProducts() {
+    return this.productsService.findAllProducts();
+  }
+  @Get(':id')
+  findOneProduct(@Param('id') id: string) {
+    return this.productsService.findOneProduct(id);
   }
 
-  @Get()
+  @Post()
+  createProduct(@Body() createProductDto: CreateProductDto) {
+    return this.productsService.createProduct(createProductDto);
+  }
+
+  // orders api rest
+  @Post('order')
+  create(@Body() createOrdertDto: CreateOrdertDto) {
+    return this.productsService.createOrder(createOrdertDto);
+  }
+
+  /*  @Get()
   findAll() {
     return this.productsService.findAll();
-  }
+  } */
 
   @Get(':id')
   findOne(@Param('id') id: string) {

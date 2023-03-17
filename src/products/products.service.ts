@@ -7,6 +7,7 @@ import { BOrdersDetails, BOrdersHeader, Products } from './entities/';
 
 // transaction of mongoose
 import { InjectConnection } from '@nestjs/mongoose';
+import { NotFoundException } from '@nestjs/common/exceptions';
 
 @Injectable()
 export class ProductsService {
@@ -19,7 +20,17 @@ export class ProductsService {
     @InjectConnection() private readonly connection,
   ) {}
 
-  async create(createOrder: CreateOrdertDto) {
+  async findAllProducts() {
+    return await this.productModel.find();
+  }
+
+  async findOneProduct(id: string) {
+    const product = await this.productModel.findById(id);
+    if (!product) throw new NotFoundException('Product not found');
+    return product;
+  }
+
+  async createOrder(createOrder: CreateOrdertDto) {
     try {
       this.connection.startSession();
       const { details, ...orderHeader } = createOrder;
@@ -48,6 +59,16 @@ export class ProductsService {
       this.connection.endSession();
       console.log(error);
       throw new Error(error);
+    }
+  }
+
+  async createProduct(createProductDto: CreateProductDto) {
+    try {
+      const createdProduct = await this.productModel.create(createProductDto);
+      return createdProduct;
+    } catch (error) {
+      console.log(error);
+      return error;
     }
   }
 

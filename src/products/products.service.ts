@@ -8,6 +8,7 @@ import { BOrdersDetails, BOrdersHeader, Products } from './entities/';
 // transaction of mongoose
 import { InjectConnection } from '@nestjs/mongoose';
 import { NotFoundException } from '@nestjs/common/exceptions';
+import { Connection } from 'mongoose';
 
 @Injectable()
 export class ProductsService {
@@ -17,7 +18,7 @@ export class ProductsService {
     private readonly OrdersHeaderModel: Model<BOrdersHeader>,
     @InjectModel(BOrdersDetails.name)
     private readonly OrdersDetailsModel: Model<BOrdersDetails>,
-    @InjectConnection() private readonly connection,
+    @InjectConnection() private readonly connection: Connection,
   ) {}
 
   async findAllProducts() {
@@ -31,8 +32,8 @@ export class ProductsService {
   }
 
   async createOrder(createOrder: CreateOrdertDto) {
+    this.connection.startSession();
     try {
-      this.connection.startSession();
       const { details, ...orderHeader } = createOrder;
       const orderHeaderModel = await this.OrdersHeaderModel.create(orderHeader);
       const orderDetails = details.map((detail) => ({
@@ -48,7 +49,7 @@ export class ProductsService {
         arrayDetails.push(orderDetailModel);
       }
       const detailsDB = await Promise.all(arrayDetails);
-      this.connection.endSession();
+      this.connection.close();
       // to abort the transaction
       // this.connection.abortTransaction();
       return {
@@ -56,9 +57,9 @@ export class ProductsService {
         details: detailsDB,
       };
     } catch (error) {
-      this.connection.endSession();
+      this.connection.close();
       console.log(error);
-      throw new Error(error);
+      return error;
     }
   }
 

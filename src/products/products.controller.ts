@@ -26,12 +26,12 @@ export class ProductsController {
   findAllProducts() {
     return this.productsService.findAllProducts();
   }
-  @Get(':id')
+  @Get('product/:id')
   findOneProduct(@Param('id') id: string) {
     return this.productsService.findOneProduct(id);
   }
 
-  @Post()
+  @Post('product')
   createProduct(@Body() createProductDto: CreateProductDto) {
     return this.productsService.createProduct(createProductDto);
   }
@@ -47,10 +47,10 @@ export class ProductsController {
     return this.productsService.findAll();
   } */
 
-  @Get(':id')
+  /*  @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(+id);
-  }
+  } */
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {

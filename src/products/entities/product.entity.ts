@@ -28,6 +28,4 @@ export class Products extends Document {
   category: string;
 }
 
-// TODO - Add a providers table
-
 export const ProductsSchema = SchemaFactory.createForClass(Products);

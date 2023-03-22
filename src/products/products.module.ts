@@ -14,12 +14,15 @@ import {
   BOrdersDetailsSchema,
 } from './entities/BOrdersDetails.entity';
 
+import { Providers, ProvidersSchema } from './entities/providers.entity';
+
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: Products.name, schema: ProductsSchema },
       { name: BOrdersHeader.name, schema: BOrdersHeaderSchema },
       { name: BOrdersDetails.name, schema: BOrdersDetailsSchema },
+      { name: Providers.name, schema: ProvidersSchema },
     ]),
   ],
   controllers: [ProductsController],

@@ -1,9 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProductDto, CreateOrdertDto, UpdateProductDto } from './dto';
+import {
+  CreateProductDto,
+  CreateOrdertDto,
+  UpdateProductDto,
+  CreateProvidertDto,
+} from './dto';
 
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { BOrdersDetails, BOrdersHeader, Products } from './entities/';
+import {
+  BOrdersDetails,
+  BOrdersHeader,
+  Products,
+  Providers,
+} from './entities/';
 
 // transaction of mongoose
 import { InjectConnection } from '@nestjs/mongoose';
@@ -19,7 +29,11 @@ export class ProductsService {
     @InjectModel(BOrdersDetails.name)
     private readonly OrdersDetailsModel: Model<BOrdersDetails>,
     @InjectConnection() private readonly connection: Connection,
+    @InjectModel(Providers.name)
+    private readonly ProvidersModel: Model<Providers>,
   ) {}
+
+  //Products api rest
 
   async findAllProducts() {
     return await this.productModel.find();
@@ -30,6 +44,8 @@ export class ProductsService {
     if (!product) throw new NotFoundException('Product not found');
     return product;
   }
+
+  //Orders api rest
 
   async createOrder(createOrder: CreateOrdertDto) {
     this.connection.startSession();
@@ -88,6 +104,30 @@ export class ProductsService {
       throw new Error(error);
     }
   }
+  //providers api rest
+
+  async creaateProvider(createProviderDto: CreateProvidertDto) {
+    try {
+      const createdProvider = await this.ProvidersModel.create(
+        createProviderDto,
+      );
+      return createdProvider;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  async findAllProviders() {
+    return await this.ProvidersModel.find();
+  }
+
+  async findOneProvider(id: string) {
+    const provider = await this.ProvidersModel.findById(id);
+    if (!provider) throw new NotFoundException('Provider not found');
+    return provider;
+  }
+
   findAll() {
     return `This action returns all products`;
   }

@@ -6,7 +6,7 @@ export class Providers extends Document {
   @Prop({ required: true, unique: true })
   ProviderName: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   mail: string;
 
   @Prop({ required: false })

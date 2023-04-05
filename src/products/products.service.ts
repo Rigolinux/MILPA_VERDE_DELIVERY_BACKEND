@@ -119,7 +119,6 @@ export class ProductsService {
   }
 
   async findAllProviders() {
-    console.log('findAllProviders');
     return await this.ProvidersModel.find();
   }
 

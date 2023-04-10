@@ -8,11 +8,13 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
-class OrderDetailsDto {
+// EXPORTE ESTA ONDA
+export class OrderDetailsDto {
   @IsString()
   @IsNotEmpty()
   ID_Product: string;
 
+  // No entiendo por que va esto aca si no hace nada
   @IsNotEmpty()
   @IsString()
   product: string;

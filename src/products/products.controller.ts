@@ -42,6 +42,11 @@ export class ProductsController {
     return this.productsService.createOrder(createOrdertDto);
   }
 
+  @Get('order/:id')
+  findOneOrder(@Param('id') id: string) {
+    return this.productsService.findOrderDetails(id);
+  }
+
   /*  @Get()
   findAll() {
     return this.productsService.findAll();

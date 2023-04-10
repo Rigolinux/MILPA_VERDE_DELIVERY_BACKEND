@@ -6,7 +6,7 @@ import {
   CreateProvidertDto,
 } from './dto';
 
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import {
   BOrdersDetails,
@@ -95,8 +95,9 @@ export class ProductsService {
 
   async findOrderDetails(id: string) {
     try {
+      const ObjectId = Types.ObjectId;
       const orderDetails = await this.OrdersDetailsModel.find({
-        ID_Header: id,
+        ID_Header: new ObjectId(id),
       });
       return orderDetails;
     } catch (error) {

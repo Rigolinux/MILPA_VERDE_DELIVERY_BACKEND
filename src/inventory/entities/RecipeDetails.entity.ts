@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 @Schema()
-export class BOrdersDetails extends Document {
+export class RecipeDetails extends Document {
   @Prop({ required: true })
   ID_Product: string;
 
@@ -20,5 +20,4 @@ export class BOrdersDetails extends Document {
 }
 // relation with BOrdersHeader and BOrdersDetails
 
-export const BOrdersDetailsSchema =
-  SchemaFactory.createForClass(BOrdersDetails);
+export const RecipeDetailsSchema = SchemaFactory.createForClass(RecipeDetails);

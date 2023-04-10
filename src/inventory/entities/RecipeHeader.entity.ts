@@ -2,24 +2,26 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
 enum Status {
-  PENDING = 'PENDING',
-  APPROVED = 'APPROVED',
-  REJECTED = 'REJECTED',
+  InUse = 'InUse',
+  Inactive = 'Inactive',
 }
 
 @Schema()
-export class BOrdersHeader extends Document {
+export class RecipeHeader extends Document {
   @Prop({ required: true })
-  provider: string;
+  name: string;
 
   @Prop({ required: true })
-  OrderDate: Date;
+  description: string;
 
   @Prop({ required: true })
-  total: number;
+  Stock: number;
 
-  @Prop({ required: true, enum: Status })
+  @Prop({ enum: Status, default: Status.InUse })
   status: string;
+
+  @Prop({ required: true })
+  cost: number;
 }
 
-export const BOrdersHeaderSchema = SchemaFactory.createForClass(BOrdersHeader);
+export const RecipeHeaderSchema = SchemaFactory.createForClass(RecipeHeader);

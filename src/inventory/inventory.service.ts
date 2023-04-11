@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateInventoryDto, CreateRecipeDto } from './dto/';
 
-import { Model, Types } from 'mongoose';
+import { Model, Types, Connection } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { RecipeHeader, RecipeDetails } from './entities/';
+import { InjectConnection } from '@nestjs/mongoose';
 
 @Injectable()
 export class InventoryService {
@@ -13,33 +14,47 @@ export class InventoryService {
     private readonly recipeHeaderModel: Model<RecipeHeader>,
     @InjectModel(RecipeDetails.name)
     private readonly recipeDetailsModel: Model<RecipeDetails>,
+    @InjectConnection() private readonly connection: Connection,
   ) {}
 
-  createRecipe(createRecipeDto: CreateRecipeDto) {
-    const recipeHeader = new this.recipeHeaderModel(createRecipeDto);
-    const recipeDetails = new this.recipeDetailsModel(createRecipeDto.details);
-    recipeHeader.details = recipeDetails;
-    recipeHeader.save();
-    return recipeHeader;
+  async createRecipe(createRecipeDto: CreateRecipeDto) {
+    try {
+      const { details, ...recipeHeader } = createRecipeDto;
+      const recipeHeaderModel = await this.recipeHeaderModel.create(
+        recipeHeader,
+      );
+      const recipeDetails = details.map((detail) => ({
+        ...detail,
+        ID_Header: recipeHeaderModel._id,
+      }));
+      const arrayDetails = [];
+      for (let i = 0; i < recipeDetails.length; i++) {
+        const recipeDetail = recipeDetails[i];
+        const recipeDetailModel = await this.recipeDetailsModel.create(
+          recipeDetail,
+        );
+        arrayDetails.push(recipeDetailModel);
+      }
+      return {
+        recipeHeader: recipeHeaderModel,
+        recipeDetails: arrayDetails,
+      };
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
 
-  create(createInventoryDto: CreateInventoryDto) {
-    return 'This action adds a new inventory';
+  async findAllRecipes() {
+    return await this.recipeHeaderModel.find();
   }
 
-  findAll() {
-    return `This action returns all inventory`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} inventory`;
-  }
-
-  update(id: number, updateInventoryDto: UpdateInventoryDto) {
-    return `This action updates a #${id} inventory`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} inventory`;
+  async getRecipe(id: string) {
+    const recipe = await this.recipeHeaderModel.findById(id);
+    if (!recipe) throw new NotFoundException('Recipe not found');
+    const details = await this.recipeDetailsModel.find({
+      ID_Header: new Types.ObjectId(id),
+    });
+    return { recipe, details };
   }
 }

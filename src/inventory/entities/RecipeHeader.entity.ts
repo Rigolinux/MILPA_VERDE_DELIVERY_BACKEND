@@ -11,10 +11,10 @@ export class RecipeHeader extends Document {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ required: true })
+  @Prop()
   description: string;
 
-  @Prop({ required: true })
+  @Prop({ default: 0 })
   Stock: number;
 
   @Prop({ enum: Status, default: Status.InUse })

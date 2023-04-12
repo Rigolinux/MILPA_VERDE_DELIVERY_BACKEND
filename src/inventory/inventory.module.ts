@@ -9,6 +9,8 @@ import {
   RecipeHeaderSchema,
   RecipeDetails,
   RecipeDetailsSchema,
+  Stock,
+  StockSchema,
 } from './entities/';
 
 @Module({
@@ -16,6 +18,7 @@ import {
     MongooseModule.forFeature([
       { name: RecipeHeader.name, schema: RecipeHeaderSchema },
       { name: RecipeDetails.name, schema: RecipeDetailsSchema },
+      { name: Stock.name, schema: StockSchema },
     ]),
   ],
   controllers: [InventoryController],

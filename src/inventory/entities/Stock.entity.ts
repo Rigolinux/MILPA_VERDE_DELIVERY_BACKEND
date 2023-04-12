@@ -17,9 +17,6 @@ export class Stock extends Document {
 
   @Prop({ required: true })
   price: number;
-
-  @Prop({ required: true })
-  FechaCaducidad: string;
 }
 
 export const StockSchema = SchemaFactory.createForClass(Stock);

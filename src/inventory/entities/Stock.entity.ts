@@ -3,20 +3,23 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class Stock extends Document {
-  @Prop({ required: true })
+  @Prop()
   name: string;
 
   @Prop()
   description: string;
 
-  @Prop({ required: true })
+  @Prop()
   ID_Recipe: string;
 
   @Prop({ default: 0 })
   Stock: number;
 
-  @Prop({ required: true })
+  @Prop()
   price: number;
+
+  @Prop()
+  FechaCaducidad: string;
 }
 
 export const StockSchema = SchemaFactory.createForClass(Stock);

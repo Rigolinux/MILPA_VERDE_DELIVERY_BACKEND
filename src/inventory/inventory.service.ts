@@ -1,11 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateInventoryDto, CreateRecipeDto } from './dto/';
+import { CreateStockDto, CreateRecipeDto, UpdateStockDto } from './dto/';
 
-import { Model, Types, Connection } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
-import { RecipeHeader, RecipeDetails } from './entities/';
-import { InjectConnection } from '@nestjs/mongoose';
+import { RecipeHeader, RecipeDetails, Stock } from './entities/';
 
 @Injectable()
 export class InventoryService {
@@ -14,9 +13,11 @@ export class InventoryService {
     private readonly recipeHeaderModel: Model<RecipeHeader>,
     @InjectModel(RecipeDetails.name)
     private readonly recipeDetailsModel: Model<RecipeDetails>,
-    @InjectConnection() private readonly connection: Connection,
+    @InjectModel(Stock.name)
+    private readonly stockModel: Model<Stock>,
   ) {}
 
+  //recipes
   async createRecipe(createRecipeDto: CreateRecipeDto) {
     try {
       const { details, ...recipeHeader } = createRecipeDto;
@@ -56,5 +57,46 @@ export class InventoryService {
       ID_Header: new Types.ObjectId(id),
     });
     return { recipe, details };
+  }
+  //stock
+  async createStock(createStockDto: CreateStockDto) {
+    const stock = await this.stockModel.create(createStockDto);
+    return stock;
+  }
+
+  async findAllStock() {
+    return await this.stockModel.find();
+  }
+
+  async getStock(id: string) {
+    const ObjectId = Types.ObjectId;
+    const stock = await this.stockModel.find({ _id: new ObjectId(id) });
+    if (!stock) throw new NotFoundException('Stock not found');
+    return stock;
+  }
+
+  async updateStock(id: string, updateStockDto: UpdateStockDto) {
+    try {
+      const ObjectId = Types.ObjectId;
+      const stock = await this.stockModel.findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        updateStockDto,
+        { new: true },
+      );
+      if (!stock) throw new NotFoundException('Stock not found');
+      return stock;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
+
+  async deleteStock(id: string) {
+    const ObjectId = Types.ObjectId;
+    const stock = await this.stockModel.findOneAndDelete({
+      _id: new ObjectId(id),
+    });
+    if (!stock) throw new NotFoundException('Stock not found');
+    return stock;
   }
 }

@@ -8,7 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { InventoryService } from './inventory.service';
-import { CreateRecipeDto } from './dto/create-recipe.dto';
+import { CreateRecipeDto, CreateStockDto, UpdateStockDto } from './dto';
 
 @Controller('inventory')
 export class InventoryController {
@@ -28,5 +28,30 @@ export class InventoryController {
   @Post('recipes')
   createRecipe(@Body() createRecipeDto: CreateRecipeDto) {
     return this.inventoryService.createRecipe(createRecipeDto);
+  }
+
+  //stock
+  @Get('stock')
+  findAllStock() {
+    return this.inventoryService.findAllStock();
+  }
+  @Post('stock')
+  createStock(@Body() createStockDto: CreateStockDto) {
+    return this.inventoryService.createStock(createStockDto);
+  }
+
+  @Get('stock/:id')
+  findOneStock(@Param('id') id: string) {
+    return this.inventoryService.getStock(id);
+  }
+
+  @Patch('stock/:id')
+  updateStock(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto) {
+    return this.inventoryService.updateStock(id, updateStockDto);
+  }
+
+  @Delete('stock/:id')
+  removeStock(@Param('id') id: string) {
+    return this.inventoryService.deleteStock(id);
   }
 }

@@ -1,23 +1,21 @@
-import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateStockDto {
-  @IsNotEmpty()
+  @IsString()
   name: string;
 
-  @IsNotEmpty()
   @IsOptional()
   description: string;
 
-  @IsNotEmpty()
+  @IsString()
   ID_Recipe: string;
 
-  @IsNotEmpty()
+  @IsNumber()
   Stock: number;
 
-  @IsNotEmpty()
   @IsNumber()
   price: number;
 
-  @IsNotEmpty()
+  @IsString()
   FechaCaducidad: string;
 }

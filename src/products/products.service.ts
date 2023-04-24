@@ -4,6 +4,7 @@ import {
   CreateOrdertDto,
   UpdateProductDto,
   UpdateProvidertDto,
+  UpdateOrderDto,
   CreateProvidertDto,
   OrderDetailsDto,
 } from './dto';
@@ -229,7 +230,7 @@ export class ProductsService {
   // Metodo para actualizar bordersheaders por id
   async updateBOrdersHeaders(
     id: string,
-    updateBOrdersHeadersDto: CreateOrdertDto,
+    updateBOrdersHeadersDto: UpdateOrderDto,
   ) {
     const bOrdersHeaders = await this.OrdersHeaderModel.findByIdAndUpdate(
       id,
@@ -241,10 +242,11 @@ export class ProductsService {
     console.log('ID QUE LLEGO', id);
     return bOrdersHeaders;
   }
+
   // Metodo para actualizar bordersdetails por id
   async updateBOrdersDetails(
     id: string,
-    updateBOrdersDetailsDto: OrderDetailsDto,
+    updateBOrdersDetailsDto: UpdateOrderDto,
   ) {
     const bOrdersDetails = await this.OrdersDetailsModel.findByIdAndUpdate(
       id,

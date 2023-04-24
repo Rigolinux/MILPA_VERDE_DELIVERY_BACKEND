@@ -6,7 +6,6 @@ import {
   UpdateProvidertDto,
   UpdateOrderDto,
   CreateProvidertDto,
-  OrderDetailsDto,
 } from './dto';
 
 import { Model, Types } from 'mongoose';

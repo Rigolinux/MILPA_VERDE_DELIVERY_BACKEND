@@ -18,71 +18,136 @@ import { ProductsService } from './products.service';
 import {
   CreateProductDto,
   CreateOrdertDto,
-  UpdateProductDto,
   CreateProvidertDto,
+  UpdateProductDto,
+  UpdateProvidertDto,
   OrderDetailsDto,
 } from './dto';
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  // products api rest
+  // =================================== AREA DE TRABAJO PARA PROVIDER ===================================
 
-  @Get()
-  findAllProducts() {
-    return this.productsService.findAllProducts();
-  }
-  @Get('product/:id')
-  findOneProduct(@Param('id') id: string) {
-    return this.productsService.findOneProduct(id);
+  // Ruta para crear un provider
+  @Post('provider')
+  async createProvider(@Body() createProviderDto: CreateProvidertDto) {
+    return await this.productsService.createProvider(createProviderDto);
   }
 
+  // Ruta para obtener todos los providers
+  @Get('provider')
+  async findAllProviders() {
+    return await this.productsService.findAllProviders();
+  }
+
+  // Ruta para obtener un provider por id
+  @Get('provider/:id')
+  async findOneProvider(@Param('id') id: string) {
+    // Validar si el provider existe
+    const providerID = await this.productsService.findOneProvider(id);
+    if (!providerID)
+      throw new NotFoundException('C- Provider ID for search does not exist!');
+    return providerID;
+  }
+
+  // Ruta para actualizar un provider por id
+  @Patch('provider/:id')
+  async updateProvider(
+    @Res() res,
+    @Body() updateProviderDto: UpdateProvidertDto,
+    @Param('id') id: string,
+  ) {
+    const updateProvider = await this.productsService.updateProvider(
+      id,
+      updateProviderDto,
+    );
+    // Validar si el provider existe
+    if (!updateProvider)
+      throw new NotFoundException('C- Provider ID for Update does not exist!');
+    return res.status(HttpStatus.OK).json({
+      message: 'C- Provider has been successfully updated',
+      updateProvider,
+    });
+  }
+
+  // Ruta para eliminar un provider por id
+  @Delete('provider/:id')
+  async deleteProvider(@Res() res, @Param('id') id: string) {
+    const providerID = await this.productsService.deleteProvider(id);
+    // Validar si el provider existe
+    if (!providerID)
+      throw new NotFoundException('C- Provider ID for deleted does not exist!');
+    return res.status(HttpStatus.OK).json({
+      message: 'C- Provider has been deleted',
+      providerID,
+    });
+  }
+
+  // =================================== AREA DE TRABAJO PARA PRODUCTS ===================================
+
+  // Ruta para crear un producto
   @Post('product')
-  createProduct(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.createProduct(createProductDto);
+  async createProduct(@Body() createProductDto: CreateProductDto) {
+    return await this.productsService.createProduct(createProductDto);
   }
 
-  // orders api rest
+  // Ruta para obtener todos los productos
+  @Get()
+  async findAllProducts() {
+    return await this.productsService.findAllProducts();
+  }
+
+  // Ruta para obtener un producto por id
+  @Get('product/:id')
+  async findOneProduct(@Param('id') id: string) {
+    // Validar si el producto existe
+    const productID = await this.productsService.findOneProduct(id);
+    if (!productID)
+      throw new NotFoundException('C- Product ID for search does not exist!');
+    return productID;
+  }
+
+  // Ruta para actualizar un producto por id
+  @Patch('product/:id')
+  async update(
+    @Res() res,
+    @Body() updateProductDto: UpdateProductDto,
+    @Param('id') id: string,
+  ) {
+    const updateProduct = await this.productsService.update(
+      id,
+      updateProductDto,
+    );
+    // Validar si el producto existe
+    if (!updateProduct)
+      throw new NotFoundException('C- Product ID for Update does not exist!');
+    return res.status(HttpStatus.OK).json({
+      message: 'C- Product has been successfully updated',
+      updateProduct,
+    });
+  }
+
+  // Ruta para eliminar un producto por id
+  @Delete('product/:id')
+  async remove(@Res() res, @Param('id') id: string) {
+    const deleteProduct = await this.productsService.remove(id);
+    // Validar si el producto existe
+    if (!deleteProduct)
+      throw new NotFoundException('C- Product ID for delete does not exist!');
+    return res.status(HttpStatus.OK).json({
+      message: 'C- Product has been successfully deleted',
+      deleteProduct,
+    });
+  }
+
+  // =================================== AREA DE TRABAJO PARA B_ORDERS ===================================
+
+  // Ruta para crear un borderheader y borderdetail
   @Post('order')
   create(@Body() createOrdertDto: CreateOrdertDto) {
     return this.productsService.createOrder(createOrdertDto);
   }
-
-  /*  @Get()
-  findAll() {
-    return this.productsService.findAll();
-  } */
-
-  /*  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
-  } */
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(+id, updateProductDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
-  }
-
-  //providers
-  @Get('provider')
-  findAllProviders() {
-    return this.productsService.findAllProviders();
-  }
-  @Get('provider/:id')
-  findOneProvider(@Param('id') id: string) {
-    return this.productsService.findOneProvider(id);
-  }
-  @Post('provider')
-  createProvider(@Body() createProviderDto: CreateProvidertDto) {
-    return this.productsService.creaateProvider(createProviderDto);
-  }
-
-  // =================================== AREA DE TRABAJO DE KIDITO =================================== 
 
   // Ruta para obtener bordersheaders
   @Get('bordersheaders')
@@ -93,7 +158,13 @@ export class ProductsController {
   // Ruta para obtener bordersheaders por id
   @Get('bordersheaders/:id')
   async findOneBOrdersHeaders(@Param('id') id: string) {
-    return await this.productsService.findOneBOrdersHeaders(id);
+    // Validar si el borderheader existe
+    const borderHeaderID = await this.productsService.findOneBOrdersHeaders(id);
+    if (!borderHeaderID)
+      throw new NotFoundException(
+        'C- BorderHeader ID for search does not exist!',
+      );
+    return borderHeaderID;
   }
 
   // Ruta para obtener bordersdetails
@@ -105,20 +176,29 @@ export class ProductsController {
   // Ruta para obtener bordersdetails por id
   @Get('bordersdetails/:id')
   async findOneBOrdersDetails(@Param('id') id: string) {
-    return await this.productsService.findOneBOrdersDetails(id);
+    // Validar si el borderdetail existe
+    const borderDetailID = await this.productsService.findOneBOrdersDetails(id);
+    if (!borderDetailID)
+      throw new NotFoundException(
+        'C- BorderDetail ID for search does not exist!',
+      );
+    return borderDetailID;
   }
 
   // Ruta para buscar un borderdetails por ID_Header de bordersheaders
   @Get('bordersdetails/getbOrdH/:idbOrdH')
   async getBOrdersDetailsByBOrdH(@Param('idbOrdH') idbOrdH: string) {
-    return await this.productsService.getBOrdersDetailsByBOrdH(idbOrdH);
+    console.log('idbOrdH aaaaaaa', idbOrdH);
+    // Validar si el borderheader existe en bordersdetails
+    const borderHeaderID = await this.productsService.getBOrdersDetailsByBOrdH(
+      idbOrdH,
+    );
+    if (!borderHeaderID || borderHeaderID.length === 0)
+      throw new NotFoundException(
+        'C- BorderHeader ID for search does not exist!',
+      );
+    return borderHeaderID;
   }
-
-  // // Ruta para eliminar bordersheaders por id
-  // @Delete('bordersheaders/delete/:id')
-  // async deleteBOrdersHeaders(@Param('id') id: string) {
-  //   return await this.productsService.deleteBOrdersHeaders(id);
-  // }
 
   // Ruta para eliminar en cascada bordersheaders y bordersdetails por id
   @Delete('bordersheaders/deletecascade/:idheaders')
@@ -128,8 +208,16 @@ export class ProductsController {
 
   // Ruta para eliminar bordersdetails por id
   @Delete('bordersdetails/delete/:id')
-  async deleteBOrdersDetails(@Param('id') id: string) {
-    return await this.productsService.deleteBOrdersDetails(id);
+  async deleteBOrdersDetails(@Res() res, @Param('id') id: string) {
+    const deleteBOrdersDetails =
+      await this.productsService.deleteBOrdersDetails(id);
+    // Validando si borderdetails id existe
+    if (!deleteBOrdersDetails)
+      throw new NotFoundException('C- BorderDetail ID does not exist!');
+    return res.status(HttpStatus.OK).json({
+      message: 'C- BorderDetail has been successfully deleted',
+      deleteBOrdersDetails,
+    });
   }
 
   // Ruta para actualizar bordersheaders por id

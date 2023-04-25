@@ -11,7 +11,7 @@ enum Status {
 @Schema()
 export class SalesHeader extends Document {
   @Prop({ required: true })
-  idUser: string;
+  ID_USER: string;
 
   @Prop({ required: true })
   dateOfbuy: string;

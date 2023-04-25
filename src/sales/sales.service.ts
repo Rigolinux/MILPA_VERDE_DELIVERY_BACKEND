@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSalesHeaderDto, UpdateSaleDto } from './dto';
 
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { SalesHeader, SalesDetails } from './entities';
 
 @Injectable()
@@ -14,23 +14,46 @@ export class SalesService {
     private readonly SalesDetailsModel: Model<SalesDetails>,
   ) {}
 
-  create(createSaleDto: CreateSalesHeaderDto) {
-    return 'This action adds a new sale';
+  async createSale(createSaleDto: CreateSalesHeaderDto) {
+    const { details, ...SalesHeader } = createSaleDto;
+    const sale = await this.SalesHeaderModel.create(SalesHeader);
+
+    const SalesDetails = details.map((detail) => ({
+      ...detail,
+      ID_sale: sale._id,
+    }));
+    const arrayDetails = [];
+    for (let i = 0; i < SalesDetails.length; i++) {
+      const detail = await this.SalesDetailsModel.create(SalesDetails[i]);
+      arrayDetails.push(detail);
+    }
+    const dbDetails = await Promise.all(arrayDetails);
+    return {
+      saleHeader: sale,
+      details: dbDetails,
+    };
   }
 
-  findAll() {
-    return `This action returns all sales`;
+  async findAllSales() {
+    return await this.SalesHeaderModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} sale`;
+  async findOneSale(id: string) {
+    const sale = await this.SalesHeaderModel.findById(id);
+    if (!sale) {
+      throw new NotFoundException(`Sale #${id} not found`);
+    }
+    return sale;
   }
 
-  update(id: number, updateSaleDto: UpdateSaleDto) {
-    return `This action updates a #${id} sale`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} sale`;
+  async findAllSalesByCustomer(id: string) {
+    const ObjectId = Types.ObjectId;
+    const sales = await this.SalesHeaderModel.find({
+      ID_USER: new ObjectId(id),
+    });
+    if (!sales) {
+      throw new NotFoundException(`Sale #${id} not found`);
+    }
+    return sales;
   }
 }

@@ -16,20 +16,24 @@ export class SalesController {
 
   @Post()
   create(@Body() createSaleDto: CreateSalesHeaderDto) {
-    return this.salesService.create(createSaleDto);
+    return this.salesService.createSale(createSaleDto);
   }
 
   @Get()
   findAll() {
-    return this.salesService.findAll();
+    return this.salesService.findAllSales();
   }
 
+  @Get('customer/:id')
+  findAllByCustomer(@Param('id') id: string) {
+    return this.salesService.findAllSalesByCustomer(id);
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.salesService.findOne(+id);
+    return this.salesService.findOneSale(id);
   }
 
-  @Patch(':id')
+  /*  @Patch(':id')
   update(@Param('id') id: string, @Body() updateSaleDto: UpdateSaleDto) {
     return this.salesService.update(+id, updateSaleDto);
   }
@@ -37,5 +41,5 @@ export class SalesController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.salesService.remove(+id);
-  }
+  } */
 }

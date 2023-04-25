@@ -165,6 +165,21 @@ export class ProductsService {
     }
   }
 
+
+  async findAllProviders() {
+    console.log('findAllProviders');
+    return await this.ProvidersModel.find();
+  }
+
+  async findOneProvider(id: string) {
+    const provider = await this.ProvidersModel.findById(id);
+    if (!provider) throw new NotFoundException('Provider not found');
+    return provider;
+  }
+
+ 
+  // =================================== AREA DE TRABAJO DE KIDITO ===================================
+
   // Metodo para obtener bordersheaders
   async findAllBOrdersHeaders() {
     return await this.OrdersHeaderModel.find();

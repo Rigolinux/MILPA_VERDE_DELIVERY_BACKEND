@@ -57,10 +57,10 @@ export class ProductsService {
   }
 
   // Metodo para obtener un provider por id
-  async findOneProvider(id: string) {
+  /* async findOneProvider(id: string) {
     const provider = await this.ProvidersModel.findById(id);
     return provider;
-  }
+  } */
 
   // Metodo para actualizar un provider por id
   async updateProvider(id: string, updateProviderDto: UpdateProvidertDto) {
@@ -168,13 +168,13 @@ export class ProductsService {
   /*   async findAllProviders() {
     console.log('findAllProviders');
     return await this.ProvidersModel.find();
-  }
+  } */
 
   async findOneProvider(id: string) {
     const provider = await this.ProvidersModel.findById(id);
     if (!provider) throw new NotFoundException('Provider not found');
     return provider;
-  } */
+  }
 
   // =================================== AREA DE TRABAJO DE KIDITO ===================================
 

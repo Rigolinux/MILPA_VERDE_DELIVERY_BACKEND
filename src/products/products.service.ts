@@ -185,10 +185,24 @@ export class ProductsService {
     return await this.OrdersHeaderModel.find();
   }
 
+
+  async findOrderDetails(id: string) {
+    try {
+      const ObjectId = Types.ObjectId;
+      const orderDetails = await this.OrdersDetailsModel.find({
+        ID_Header: new ObjectId(id),
+      });
+      return orderDetails;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+
   // Metodo para obtener bordersheaders por id
   async findOneBOrdersHeaders(id: string) {
     const bOrderHeader = await this.OrdersHeaderModel.findById(id);
     return bOrderHeader;
+
   }
 
   // Metodo para obtener bordersdetails

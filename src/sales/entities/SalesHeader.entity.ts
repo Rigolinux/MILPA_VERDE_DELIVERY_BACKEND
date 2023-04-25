@@ -24,6 +24,12 @@ export class SalesHeader extends Document {
 
   @Prop({})
   dateOfDelivered: string;
+
+  @Prop({ required: true })
+  TransferNumber: string;
+
+  @Prop({ required: true, enum: Status })
+  TransferStatus: string;
 }
 
 export const SalesHeaderSchema = SchemaFactory.createForClass(SalesHeader);

@@ -4,6 +4,9 @@ import { Document } from 'mongoose';
 @Schema()
 export class SalesDetails extends Document {
   @Prop({ required: true })
+  ID_sale: string;
+
+  @Prop({ required: true })
   ID_recipe: string;
 
   @Prop({ required: true })
@@ -11,6 +14,9 @@ export class SalesDetails extends Document {
 
   @Prop({ required: true })
   price: number;
+
+  @Prop({ required: true })
+  total: number;
 }
 
 export const SalesDetailsSchema = SchemaFactory.createForClass(SalesDetails);

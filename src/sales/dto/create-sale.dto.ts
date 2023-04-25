@@ -41,7 +41,7 @@ export class SalesDetailsDto {
   total: number;
 }
 
-export class SalesHeaderDto {
+export class CreateSalesHeaderDto {
   @IsString()
   @IsNotEmpty()
   idUser: string;

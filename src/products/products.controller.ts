@@ -150,7 +150,6 @@ export class ProductsController {
     return this.productsService.createOrder(createOrdertDto);
   }
 
-
   /*  @Get('order/:id')
   findOneOrder(@Param('id') id: string) {
     return this.productsService.findOrderDetails(id);
@@ -166,7 +165,6 @@ export class ProductsController {
   async findAllBOrdersHeaders() {
     return await this.productsService.findAllBOrdersHeaders();
   }
-
 
   // Ruta para obtener bordersheaders por id
   @Get('bordersheaders/:id')

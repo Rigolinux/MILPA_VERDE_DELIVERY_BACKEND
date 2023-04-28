@@ -58,6 +58,7 @@ export class ProductsController {
     @Body() updateProviderDto: UpdateProvidertDto,
     @Param('id') id: string,
   ) {
+    console.log('updateProviderDto', updateProviderDto);
     const updateProvider = await this.productsService.updateProvider(
       id,
       updateProviderDto,

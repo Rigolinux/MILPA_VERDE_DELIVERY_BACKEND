@@ -1,10 +1,4 @@
-import {
-  IsNotEmpty,
-  IsString,
-  IsOptional,
-  IsNumber,
-  IsUrl,
-} from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional, IsNumber } from 'class-validator';
 
 export class CreateProvidertDto {
   @IsString()
@@ -24,6 +18,5 @@ export class CreateProvidertDto {
   address: string;
 
   @IsOptional()
-  @IsUrl()
   website: string;
 }

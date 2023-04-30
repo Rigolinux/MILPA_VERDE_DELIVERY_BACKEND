@@ -40,6 +40,9 @@ export class CreateOrdertDto {
   provider: string;
 
   @IsNotEmpty()
+  provider_ID: string;
+
+  @IsNotEmpty()
   @IsDateString({ strict: true } as any)
   OrderDate: Date;
 

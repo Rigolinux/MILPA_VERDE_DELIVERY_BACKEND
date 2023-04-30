@@ -13,6 +13,9 @@ export class BOrdersHeader extends Document {
   provider: string;
 
   @Prop({ required: true })
+  provider_ID: string;
+
+  @Prop({ required: true })
   OrderDate: Date;
 
   @Prop({ required: true })

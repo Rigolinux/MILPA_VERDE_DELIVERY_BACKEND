@@ -10,7 +10,6 @@ enum Status {
 export class RecipeHeader extends Document {
   @Prop({ required: true })
   name: string;
-
   @Prop()
   description: string;
 
@@ -22,6 +21,12 @@ export class RecipeHeader extends Document {
 
   @Prop({ required: true })
   cost: number;
+
+  @Prop({ required: true })
+  price: number;
+
+  @Prop({ required: true })
+  Image: string;
 }
 
 export const RecipeHeaderSchema = SchemaFactory.createForClass(RecipeHeader);

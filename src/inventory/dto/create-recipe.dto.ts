@@ -5,6 +5,7 @@ import {
   IsEnum,
   ValidateNested,
   IsOptional,
+  IsUrl,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -43,6 +44,13 @@ export class CreateRecipeDto {
   @IsNotEmpty()
   @IsNumber()
   cost: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  price: number;
+
+  @IsUrl()
+  Image: string;
 
   @ValidateNested({ each: true })
   @Type(() => RecipeDetailsDto)

@@ -27,6 +27,7 @@ export class InventoryController {
 
   @Post('recipes')
   createRecipe(@Body() createRecipeDto: CreateRecipeDto) {
+    console.log(createRecipeDto);
     return this.inventoryService.createRecipe(createRecipeDto);
   }
 

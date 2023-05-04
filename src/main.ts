@@ -10,8 +10,8 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
-  app.enableCors();
+  //app.enableCors();
   // app.setGlobalPrefix('api/v1');
-  await app.listen(process.env.Port || 3000);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();

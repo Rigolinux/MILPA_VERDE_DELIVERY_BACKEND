@@ -110,7 +110,7 @@ export class SalesService {
     const SalesDetails = await this.SalesDetailsModel.deleteMany({
       ID_sale: F_ID_Header,
     });
-    // notificacion por consola
+    // notificacion por consola de los datos eliminados
     console.log('SalesHeader: ', SalesHeader);
     console.log('SalesDetails: ', SalesDetails);
     if (!SalesHeader && !SalesDetails) {

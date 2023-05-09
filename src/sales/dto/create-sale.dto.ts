@@ -44,7 +44,7 @@ export class SalesDetailsDto {
 export class CreateSalesHeaderDto {
   @IsString()
   @IsNotEmpty()
-  idUser: string;
+  ID_USER: string;
 
   @IsNotEmpty()
   @IsString()
@@ -64,6 +64,14 @@ export class CreateSalesHeaderDto {
 
   @IsString()
   dateOfDelivered: string;
+
+  @IsNotEmpty()
+  @IsString()
+  TransferNumber: string;
+
+  @IsNotEmpty()
+  @IsEnum(Status)
+  TransferStatus: string;
 
   @ValidateNested({ each: true })
   @Type(() => SalesDetailsDto)

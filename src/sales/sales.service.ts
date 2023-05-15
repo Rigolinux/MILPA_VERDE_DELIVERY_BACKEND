@@ -103,6 +103,70 @@ export class SalesService {
     }
   }
 
+  // Metodo para obtener los sales de SalesDetais por el dateOfbuy
+  async getSalesByDate(dateOfBuy: string) {
+    try {
+      const sales = await this.SalesDetailsModel.find({
+        dateOfBuy: dateOfBuy,
+      });
+      return sales;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  }
+
+  // Metodo para obtener los salesDetails que tengan la misma fecha en el dateOfBuy
+  async getSalesDetailsByDate3(dateOfBuy: string) {
+    try {
+      const sales = await this.SalesDetailsModel.find({
+        dateOfBuy: dateOfBuy,
+      });
+      return sales;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  }
+
+  // Metodo para obtener el saleDetail que tenga la misma fecha en el dateOfBuy
+  async getSalesDetailsByDate2(dateOfBuy: string) {
+    try {
+      // Filtrando los registros que tengan la misma fecha en dateOfBuy
+      const sales = await this.SalesDetailsModel.find({
+        dateOfBuy: dateOfBuy,
+      });
+      return sales;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  }
+
+  // Metodo para obtener UNICAMENTE los salesDetails que tengan la misma fecha en dateOfBuy
+  async abc(dateOfbuy: string) {
+    try {
+      // Filtrando los registros que tengan la misma fecha en dateOfBuy
+      const sales = await this.SalesDetailsModel.find({
+        dateOfbuy: dateOfbuy,
+        // dateOfbuy: { $regex: new RegExp('^' + month)},
+        // $expr: {
+        //   $eq: [
+        //     {
+        //       $month: '$dateOfbuy',
+        //     },
+        //     dateOfbuy,
+        //   ],
+        // },
+      });
+      console.log(sales);
+      return sales;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  }
+
   // Ruta para eliminar en cascada SalesHeaders y SalesDetails por id
   async deleteSalesHeadersAndDetails(id: string) {
     const SalesHeader = await this.SalesHeaderModel.findByIdAndDelete(id);

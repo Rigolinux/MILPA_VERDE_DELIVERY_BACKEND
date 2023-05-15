@@ -85,6 +85,54 @@ export class SalesController {
     return ID_user;
   }
 
+  // Ruta para obtener los sales de SalesDetais por el dateOfbuy
+  @Get('salesDetails/searchbyDateOfBuy/:dateOfBuy')
+  async getSalesByDate(@Param('dateOfBuy') dateOfBuy: string) {
+    // Validar si el dateOfBuy existe en salesDetails
+    const date = await this.salesService.getSalesByDate(dateOfBuy);
+    if (!date || date.length === 0)
+      throw new NotFoundException(
+        'C- DateOfBuy for search does not exist in SalesDetails!',
+      );
+    return date;
+  }
+
+  // Ruta para obtener los salesDetails que tengan la misma fecha en el dateOfBuy
+  @Get('salesDetails/searchbyDateOfBuy3/:dateOfBuy')
+  async getSalesDetailsByDate3(@Param('dateOfBuy') dateOfBuy: string) {
+    // Validar si el dateOfBuy existe en salesDetails
+    const date = await this.salesService.getSalesDetailsByDate3(dateOfBuy);
+    if (!date || date.length === 0)
+      throw new NotFoundException(
+        'C- DateOfBuy for search does not exist in SalesDetails!',
+      );
+    return date;
+  }
+
+  // Ruta  para obtener el saleDetail que tenga la misma fecha en el dateOfBuy
+  @Get('salesDetails/searchbyDateOfBuy0/:dateOfBuy')
+  async getSalesDetailsByDate2(@Param('dateOfBuy') dateOfBuy: string) {
+    // Validar si el dateOfBuy existe en salesDetails
+    const date = await this.salesService.getSalesDetailsByDate2(dateOfBuy);
+    if (!date)
+      throw new NotFoundException(
+        'C- DateOfBuy for search does not exist in SalesDetails!',
+      );
+    return date;
+  }
+
+  // Ruta para obtener UNICAMENTE los salesDetails que tengan la misma fecha en dateOfBuy
+  @Get('salesDetails/searchbyDateOfBuy999/:month')
+  async abc(@Param('month') month: string) {
+    // Validando que retorne unicamente los salesDetails que tengan la misma fecha en dateOfBuy
+    const date = await this.salesService.abc(month);
+    if (!date || date.length === 0)
+      throw new NotFoundException(
+        'C- DateOfBuy for search does not exist in SalesDetails!',
+      );
+    return date;
+  }
+
   // Ruta para eliminar en cascada SalesHeaders y SalesDetails por id
   @Delete('deleteSales/:id')
   async deleteSalesHeadersAndDetails(@Param('id') id: string) {

@@ -10,6 +10,9 @@ export class SalesDetails extends Document {
   ID_recipe: string;
 
   @Prop({ required: true })
+  dateOfbuy: string;
+
+  @Prop({ required: true })
   quantity: number;
 
   @Prop({ required: true })

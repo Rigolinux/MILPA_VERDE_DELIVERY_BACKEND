@@ -56,3 +56,34 @@ export class CreateRecipeDto {
   @Type(() => RecipeDetailsDto)
   details: RecipeDetailsDto[];
 }
+
+export class CreateRecipeDetailDto {
+  // @IsNotEmpty()
+  // @IsString()
+  // productId: string;
+  // @IsNotEmpty()
+  // @IsNumber()
+  // quantity: number;
+
+  @IsString()
+  @IsNotEmpty()
+  ID_Product: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  quantity: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  price: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  total: number;
+}
+
+export class UpdateRecipeStockDto {
+  @IsNotEmpty()
+  @IsNumber()
+  stock: number;
+}

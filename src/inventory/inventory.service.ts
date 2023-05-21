@@ -1,5 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateStockDto, CreateRecipeDto, UpdateStockDto } from './dto/';
+import {
+  CreateStockDto,
+  CreateRecipeDto,
+  UpdateStockDto,
+  UpdateRecipeStockDto,
+  CreateRecipeDetailDto,
+} from './dto/';
 
 import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -50,14 +56,46 @@ export class InventoryService {
     return await this.recipeHeaderModel.find();
   }
 
-  async getRecipe(id: string) {
-    const recipe = await this.recipeHeaderModel.findById(id);
-    if (!recipe) throw new NotFoundException('Recipe not found');
-    const details = await this.recipeDetailsModel.find({
-      ID_Header: new Types.ObjectId(id),
-    });
-    return { recipe, details };
+  // async getRecipe(id: string) {
+  //   const recipe = await this.recipeHeaderModel.findById(id);
+  //   if (!recipe) throw new NotFoundException('Recipe not found');
+  //   const details = await this.recipeDetailsModel.find({
+  //     ID_Header: new Types.ObjectId(id),
+  //   });
+  //   return { recipe, details };
+  // }
+
+  // Metodo para obtener un recipeheader por id
+  async findOneRecipeHeader(id: string) {
+    const recipeheader = await this.recipeHeaderModel.findById(id);
+    return recipeheader;
   }
+
+  // Metodo para crear un recipedetails dentro de un recipeheader por medio del idheader
+  async createRecipeDetail(
+    id: string,
+    createRecipeDetailDto: CreateRecipeDetailDto,
+  ) {
+    const recipeheader = await this.recipeHeaderModel.findById(id);
+    const recipeDetail = await this.recipeDetailsModel.create({
+      ...createRecipeDetailDto,
+      ID_Header: recipeheader._id,
+    });
+    console.log(recipeDetail);
+    return recipeDetail;
+  }
+
+  // Metodo para actualizar el stock del recipeheader cuando sea mayor o igual al pedido por id
+  async updateRecipeStock(id: string, stock: number) {
+    const recipeheader = await this.recipeHeaderModel.findByIdAndUpdate(
+      id,
+      { Stock: stock },
+      { new: true },
+    );
+    console.log(recipeheader);
+    return recipeheader;
+  }
+
   //stock
   async createStock(createStockDto: CreateStockDto) {
     const stock = await this.stockModel.create(createStockDto);

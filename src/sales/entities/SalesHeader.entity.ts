@@ -17,6 +17,9 @@ export class SalesHeader extends Document {
   dateOfbuy: string;
 
   @Prop({ required: true })
+  quantity: number;
+
+  @Prop({ required: true })
   total: number;
 
   @Prop({ required: true, enum: Status })

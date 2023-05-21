@@ -24,8 +24,8 @@ export class SalesDetailsDto {
   @IsNotEmpty()
   ID_recipe: string;
 
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
   dateOfbuy: string;
 
   @IsNotEmpty()

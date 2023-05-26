@@ -7,4 +7,7 @@ export const envVarsSchema = Joi.object({
   PORT: Joi.number().default(3000),
   DEFAULT_LIMIT: Joi.number().default(5),
   SECRETKEY: Joi.string().required(),
+  Paypal_client_id: Joi.string(),
+  Paypal_client_secret: Joi.string(),
+  Paypal_url: Joi.string(),
 });

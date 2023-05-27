@@ -14,7 +14,8 @@ export class PaymentService {
         {
           amount: {
             currency_code: 'USD',
-            value: '100.00',
+            //TOtal a pagar por el cliente
+            value: '200',
           },
         },
       ],
@@ -22,7 +23,7 @@ export class PaymentService {
         brand_name: 'Milpa Verde',
         landing_page: 'NO_PREFERENCE',
         user_action: 'PAY_NOW',
-        return_url: 'https://google.com',
+        return_url: 'https://google.com/thankiu',
         cancel_url: 'https://youtube.com',
       },
     };

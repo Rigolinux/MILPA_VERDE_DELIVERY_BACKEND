@@ -49,6 +49,24 @@ export class PaymentService {
 
     return response.data;
   }
+
+  async captureOrder(orderId: string) {
+    const env = EnvConfig();
+    try {
+      const resp = await axios.post(
+        `https://api.sandbox.paypal.com/v2/checkout/orders/${orderId}/capture`,
+        {},
+        {
+          auth: {
+            username: env.Paypal_client_id,
+            password: env.Paypal_client_secret,
+          },
+        },
+      );
+      return resp.data;
+    } catch (error) {}
+  }
+
   create(createPaymentDto: CreatePaymentDto) {
     return 'This action adds a new payment';
   }

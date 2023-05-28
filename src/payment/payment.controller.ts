@@ -20,6 +20,10 @@ export class PaymentController {
     return this.paymentService.sendtoBillPaypal();
   }
 
+  @Post('paypal/capture')
+  captureOrder(@Body('orderId') orderId: string) {
+    return this.paymentService.captureOrder(orderId);
+  }
 
   @Post()
   create(@Body() createPaymentDto: CreatePaymentDto) {

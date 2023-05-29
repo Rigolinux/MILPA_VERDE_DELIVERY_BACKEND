@@ -5,6 +5,7 @@ import { CreateSalesHeaderDto } from './dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { SalesHeader, SalesDetails } from './entities';
+import { InventoryService } from 'src/inventory/inventory.service';
 
 @Injectable()
 export class SalesService {
@@ -13,6 +14,7 @@ export class SalesService {
     private readonly SalesHeaderModel: Model<SalesHeader>,
     @InjectModel(SalesDetails.name)
     private readonly SalesDetailsModel: Model<SalesDetails>,
+     private readonly inventoryService: InventoryService,
   ) {}
 
   // Metodo para crear un sale
@@ -25,8 +27,16 @@ export class SalesService {
       ID_sale: sale._id,
     }));
     const arrayDetails = [];
+    const arrayUpdate = [];
     for (let i = 0; i < SalesDetails.length; i++) {
       const detail = await this.SalesDetailsModel.create(SalesDetails[i]);
+      this.inventoryService.updateRecipeStock(
+        SalesDetails[i].ID_recipe,
+        SalesDetails[i].quantity,
+      );
+      //logica de actualizar aqui
+
+      // hasta aqui la logica de actualizar
       arrayDetails.push(detail);
     }
     const dbDetails = await Promise.all(arrayDetails);

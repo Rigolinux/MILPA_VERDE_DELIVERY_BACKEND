@@ -16,9 +16,6 @@ enum Status {
 
 // EXPORTE ESTA ONDA
 export class SalesDetailsDto {
-  @IsString()
-  @IsNotEmpty()
-  ID_sale: string;
 
   @IsString()
   @IsNotEmpty()

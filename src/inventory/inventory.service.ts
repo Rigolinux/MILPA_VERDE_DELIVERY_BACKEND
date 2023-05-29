@@ -87,13 +87,17 @@ export class InventoryService {
 
   // Metodo para actualizar el stock del recipeheader cuando sea mayor o igual al pedido por id
   async updateRecipeStock(id: string, stock: number) {
-    const recipeheader = await this.recipeHeaderModel.findByIdAndUpdate(
-      id,
-      { Stock: stock },
-      { new: true },
-    );
-    console.log(recipeheader);
-    return recipeheader;
+    const recipe = await this.findOneRecipeHeader(id);
+
+    if (recipe.Stock >= stock) {
+      const recipeHeader = await this.recipeHeaderModel.findOneAndUpdate(
+        { _id: recipe._id },
+        { Stock: recipe.Stock - stock },
+        { new: true },
+      );
+      return recipeHeader;
+    }
+    return 'No hay suficiente stock';
   }
 
   //stock

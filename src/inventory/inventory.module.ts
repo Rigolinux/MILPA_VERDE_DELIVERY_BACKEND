@@ -22,6 +22,6 @@ import {
     ]),
   ],
   controllers: [InventoryController],
-  providers: [InventoryService],
+  providers: [InventoryService, MongooseModule],
 })
 export class InventoryModule {}

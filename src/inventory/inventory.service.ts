@@ -117,16 +117,36 @@ export class InventoryService {
     return stock;
   }
 
-  async updateStock(id: string, updateStockDto: UpdateStockDto) {
+  // async updateStock(id: string, updateStockDto: UpdateStockDto) {
+  //   try {
+  //     const ObjectId = Types.ObjectId;
+  //     const stock = await this.stockModel.findOneAndUpdate(
+  //       { _id: new ObjectId(id) },
+  //       updateStockDto,
+  //       { new: true },
+  //     );
+  //     if (!stock) throw new NotFoundException('Stock not found');
+  //     return stock;
+  //   } catch (error) {
+  //     console.log(error);
+  //     return error;
+  //   }
+  // }
+
+  // Metodo para actualizar el stock de recipeheader por id
+  async updateRecieStock(
+    id: string,
+    updateRecipeStockDto: UpdateRecipeStockDto,
+  ) {
     try {
       const ObjectId = Types.ObjectId;
-      const stock = await this.stockModel.findOneAndUpdate(
+      const recipeheader = await this.recipeHeaderModel.findOneAndUpdate(
         { _id: new ObjectId(id) },
-        updateStockDto,
+        updateRecipeStockDto,
         { new: true },
       );
-      if (!stock) throw new NotFoundException('Stock not found');
-      return stock;
+      if (!recipeheader) throw new NotFoundException('Recipe not found');
+      return recipeheader;
     } catch (error) {
       console.log(error);
       return error;

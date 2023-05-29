@@ -159,9 +159,15 @@ export class InventoryController {
     return this.inventoryService.getStock(id);
   }
 
-  @Patch('stock/:id')
-  updateStock(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto) {
-    return this.inventoryService.updateStock(id, updateStockDto);
+  // @Patch('stock/:id')
+  // updateStock(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto) {
+  //   return this.inventoryService.updateStock(id, updateStockDto);
+  // }
+
+  // Ruta para actualizar el stock de recipeheader por id
+  @Patch('recipes/updstock/:id/stock')
+  updateRecipeStock(@Param('id') id: string, @Body('stock') stock: number) {
+    return this.inventoryService.updateRecipeStock(id, stock);
   }
 
   @Delete('stock/:id')

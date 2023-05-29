@@ -15,9 +15,14 @@ import { UpdatePaymentDto } from './dto/update-payment.dto';
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
+  // @Post('paypal')
+  // sendtoBillPaypal() {
+  //   return this.paymentService.sendtoBillPaypal();
+  // }
+
   @Post('paypal')
-  sendtoBillPaypal() {
-    return this.paymentService.sendtoBillPaypal();
+  sendtoBillPaypal(@Body('amount') amount: number) {
+    return this.paymentService.sendtoBillPaypal(amount);
   }
 
   @Post('paypal/capture')

@@ -6,7 +6,9 @@ import axios from 'axios';
 
 @Injectable()
 export class PaymentService {
-  async sendtoBillPaypal() {
+  // async sendtoBillPaypal() {
+  async sendtoBillPaypal(amount: number) {
+    console.log('amount', amount);
     const env = EnvConfig();
     const order = {
       intent: 'CAPTURE',
@@ -15,7 +17,8 @@ export class PaymentService {
           amount: {
             currency_code: 'USD',
             //TOtal a pagar por el cliente
-            value: '200',
+            // value: '1',
+            value: amount,
           },
         },
       ],
@@ -23,8 +26,8 @@ export class PaymentService {
         brand_name: 'Milpa Verde',
         landing_page: 'NO_PREFERENCE',
         user_action: 'PAY_NOW',
-        return_url: 'https://google.com/thankiu',
-        cancel_url: 'https://youtube.com',
+        return_url: `${env.Hostport}/test`,
+        cancel_url: `${env.Hostport}/cart`,
       },
     };
     const params = new URLSearchParams();
@@ -47,10 +50,18 @@ export class PaymentService {
       },
     );
 
+    // return response.data;
+    // Capturar el ID DE LA ORDEN
+    // const orderId = response.data.id;
+    // Llamar al metodo de captura
+    // await this.captureOrder(orderId);
+
     return response.data;
   }
 
   async captureOrder(orderId: string) {
+    console.log('llego al metodo de captura');
+    console.log(orderId);
     const env = EnvConfig();
     try {
       const resp = await axios.post(

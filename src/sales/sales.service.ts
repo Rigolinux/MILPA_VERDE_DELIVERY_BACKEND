@@ -14,7 +14,7 @@ export class SalesService {
     private readonly SalesHeaderModel: Model<SalesHeader>,
     @InjectModel(SalesDetails.name)
     private readonly SalesDetailsModel: Model<SalesDetails>,
-     private readonly inventoryService: InventoryService,
+    private readonly inventoryService: InventoryService,
   ) {}
 
   // Metodo para crear un sale

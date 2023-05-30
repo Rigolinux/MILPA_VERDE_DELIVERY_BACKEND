@@ -68,6 +68,7 @@ export class InventoryService {
   // Metodo para obtener un recipeheader por id
   async findOneRecipeHeader(id: string) {
     const recipeheader = await this.recipeHeaderModel.findById(id);
+    console.log('recipeheader', recipeheader);
     return recipeheader;
   }
 
@@ -151,6 +152,19 @@ export class InventoryService {
       console.log(error);
       return error;
     }
+  }
+
+  async deleteRecipe(id: string) {
+    const ObjectId = Types.ObjectId;
+    const recipe = await this.recipeHeaderModel.findOneAndDelete({
+      _id: new ObjectId(id),
+    });
+    const recipeDetails = await this.recipeDetailsModel.deleteMany({
+      ID_Header: new ObjectId(id),
+    });
+
+    if (!recipe) throw new NotFoundException('Recipe not found');
+    return { recipe, recipeDetails };
   }
 
   async deleteStock(id: string) {

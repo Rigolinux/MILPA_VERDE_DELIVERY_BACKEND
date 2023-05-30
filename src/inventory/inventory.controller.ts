@@ -37,6 +37,7 @@ export class InventoryController {
   @Get('recipesh/:id')
   async findOneRecipeHeader(@Param('id') id: string) {
     // Validar si el recipeheader existe
+    console.log('id', id);
     const recipeheaderID = await this.inventoryService.findOneRecipeHeader(id);
     if (!recipeheaderID)
       throw new NotFoundException(
@@ -144,6 +145,11 @@ export class InventoryController {
     return this.inventoryService.createRecipe(createRecipeDto);
   }
 
+  @Delete('recipes/:id')
+  removeRecipe(@Param('id') id: string) {
+    return this.inventoryService.deleteRecipe(id);
+  }
+
   //stock
   @Get('stock')
   findAllStock() {
@@ -158,6 +164,8 @@ export class InventoryController {
   findOneStock(@Param('id') id: string) {
     return this.inventoryService.getStock(id);
   }
+
+ 
 
   // @Patch('stock/:id')
   // updateStock(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto) {

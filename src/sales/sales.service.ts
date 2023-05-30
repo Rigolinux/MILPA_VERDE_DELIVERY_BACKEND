@@ -132,4 +132,41 @@ export class SalesService {
     }
     return { SalesHeader, SalesDetails };
   }
+
+  // Metodo para obtener un saleheader por ID_USER de salesheaders
+  async getSaleHistory(id: string) {
+    try {
+      const sales = await this.SalesHeaderModel.find({
+        ID_USER: new Types.ObjectId(id),
+      });
+      return sales;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  }
+
+  // Metodo para eliminar un saleheader por ID_USER de salesheaders
+  async deleteSaleHistory(id: string) {
+    try {
+      const sales = await this.SalesHeaderModel.deleteMany({
+        ID_USER: new Types.ObjectId(id),
+      });
+      return sales;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  }
+
+  // Metodo para eliminar un saleheader por id de salesheaders
+  async deleteSaleHistoryBy_id(id: string) {
+    try {
+      const sales = await this.SalesHeaderModel.findByIdAndDelete(id);
+      return sales;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  }
 }

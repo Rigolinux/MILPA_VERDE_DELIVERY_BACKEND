@@ -91,6 +91,42 @@ export class SalesController {
     return await this.salesService.deleteSalesHeadersAndDetails(id);
   }
 
+  // Ruta para obtener un saleheader por ID_USER de salesheaders
+  @Get('salesHeaders/history/:id')
+  async getSaleHistory(@Param('id') id: string) {
+    // Validar si el ID_User existe en salesHeaders
+    const ID_user = await this.salesService.getSaleHistory(id);
+    if (!ID_user || ID_user.length === 0)
+      throw new NotFoundException(
+        'C- ID_User for search does not exist in SalesHeaders!',
+      );
+    return ID_user;
+  }
+
+  // Ruta para eliminar un saleheader por ID_USER de salesheaders
+  @Delete('salesHeaders/history/delete/:id')
+  async deleteSaleHistory(@Param('id') id: string) {
+    // Validar si el ID_User existe en salesHeaders
+    const ID_user = await this.salesService.deleteSaleHistory(id);
+    if (!ID_user)
+      throw new NotFoundException(
+        'C- ID_User for search does not exist in SalesHeaders!',
+      );
+    return ID_user;
+  }
+
+  // Ruta para eliminar un saleheader por _id de salesheaders
+  @Delete('salesHeaders/history/del/:id')
+  async deleteSaleHistoryBy_id(@Param('id') id: string) {
+    // Validar si el id saleheader existe en salesHeaders
+    const idHeader = await this.salesService.deleteSaleHistoryBy_id(id);
+    if (!idHeader)
+      throw new NotFoundException(
+        'C- _id for search does not exist in SalesHeaders!',
+      );
+    return idHeader;
+  }
+
   // @Get('customer/:id')
   // findAllByCustomer(@Param('id') id: string) {
   //   return this.salesService.findAllSalesByCustomer(id);

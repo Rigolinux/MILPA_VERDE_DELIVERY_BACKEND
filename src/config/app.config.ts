@@ -12,6 +12,8 @@ export const EnvConfig = () =>({
   Paypal_client_id: process.env.PAYPAL_CLIENT_KEY,
   Paypal_client_secret: process.env.PAYPAL_SECRET_KEY,
   Paypal_url: process.env.PAYPA_URL,
-  // Hostport: 'http://' + process.env.HOST+':'+process.env.PORT2,
-  Hostport: process.env.HOSTPORT,
+
+  Hostport: 'http://' + process.env.HOST+':'+process.env.PORT2,
+  // Hostport: process.env.HOSTPORT,
+
 });

@@ -13,7 +13,7 @@ import { InventoryService } from './inventory.service';
 import {
   CreateRecipeDto,
   CreateStockDto,
-  UpdateStockDto,
+  UpdateRecipeDto,
   UpdateRecipeStockDto,
   CreateRecipeDetailDto,
 } from './dto';
@@ -97,6 +97,10 @@ export class InventoryController {
 
   // ===================
 
+  @Patch('updateRecipes/:id')
+  async updateRecipes(@Body() up: UpdateRecipeDto, @Param('id') id: string) {
+    return this.inventoryService.updaterecipe(up, id);
+  }
   // Ruta para crear un RecipeDetail dentro de un RecipeHeader por medio del id del header y actualizar el stock si es suficiente
   @Post('recipes/buy/:id')
   async createRecipeDetailAndUpdateStock(
@@ -164,8 +168,6 @@ export class InventoryController {
   findOneStock(@Param('id') id: string) {
     return this.inventoryService.getStock(id);
   }
-
- 
 
   // @Patch('stock/:id')
   // updateStock(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto) {

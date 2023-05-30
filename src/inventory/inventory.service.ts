@@ -11,6 +11,7 @@ import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { RecipeHeader, RecipeDetails, Stock } from './entities/';
+import { UpdateRecipeDto } from './dto/update-recipe.dto';
 
 @Injectable()
 export class InventoryService {
@@ -70,6 +71,18 @@ export class InventoryService {
     const recipeheader = await this.recipeHeaderModel.findById(id);
     console.log('recipeheader', recipeheader);
     return recipeheader;
+  }
+
+  async updaterecipe(up: UpdateRecipeDto, id: string) {
+    const recipe = await this.findOneRecipeHeader(id);
+    if (!recipe) throw new NotFoundException('Recipe not found');
+    const recipeHeader = await this.recipeHeaderModel.findOneAndUpdate(
+      { _id: recipe._id },
+      up,
+      { new: true },
+    );
+
+    return recipeHeader;
   }
 
   // Metodo para crear un recipedetails dentro de un recipeheader por medio del idheader

@@ -3,7 +3,7 @@ import {
   Get,
   Post,
   Body,
-  // Patch,
+  Patch,
   Param,
   // Delete,
   NotFoundException,
@@ -72,6 +72,8 @@ export class SalesController {
       );
     return ID_sale;
   }
+
+ 
 
   // Ruta para obtener un sale por ID_USER de salesheaders
   @Get('salesHeaders/searchbyIDUser/:id')
